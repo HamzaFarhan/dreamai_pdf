@@ -1,0 +1,6 @@
+pypdf
+dreamai
+setuptools
+dreamai_dl
+setfit
+sentence_transformers
