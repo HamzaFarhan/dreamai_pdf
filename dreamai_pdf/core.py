@@ -93,10 +93,12 @@ def extract_text(file, n_lines=3):
                             pdf_text.append(txt)
                 except Exception as e:
                     msg.fail(
-                        f"Could not extract text from page {pn} of file: {file}", f'\t{e}', spaced=True
+                        f"Could not extract text from page {pn} of file: {file}",
+                        f"\t{e}",
+                        spaced=True,
                     )
         except Exception as e:
-            msg.fail(f"Could not extract text from file: {file}", f'\t{e}', spaced=True)
+            msg.fail(f"Could not extract text from file: {file}", f"\t{e}", spaced=True)
             return []
         return flatten_list(pdf_text)
     else:
@@ -107,7 +109,7 @@ def extract_text_list(data_path, n_lines=2):
     try:
         pdfs = resolve_data_path(data_path)
     except Exception as e:
-        msg.fail(f"Could not resolve data path: {data_path}", f'\t{e}', spaced=True)
+        msg.fail(f"Could not resolve data path: {data_path}", f"\t{e}", spaced=True)
         return []
     text_list = []
     for file in pdfs:
@@ -116,7 +118,9 @@ def extract_text_list(data_path, n_lines=2):
                 pdf_text = extract_text(file, n_lines=n_lines)
                 text_list.append(flatten_list(pdf_text))
             except Exception as e:
-                msg.fail(f"Could not extract text from file: {file}", f'\t{e}', spaced=True)
+                msg.fail(
+                    f"Could not extract text from file: {file}", f"\t{e}", spaced=True
+                )
     return text_list
 
 
@@ -124,7 +128,7 @@ def extract_text_dict(data_path, n_lines=2):
     try:
         pdfs = resolve_data_path(data_path)
     except Exception as e:
-        msg.fail(f"Could not resolve data path: {data_path}", f'\t{e}', spaced=True)
+        msg.fail(f"Could not resolve data path: {data_path}", f"\t{e}", spaced=True)
         return []
     pdf_dict = {}
     for file in pdfs:
@@ -133,7 +137,9 @@ def extract_text_dict(data_path, n_lines=2):
                 pdf_text = extract_text(file, n_lines=n_lines)
                 pdf_dict[str(file)] = flatten_list(pdf_text)
             except Exception as e:
-                msg.fail(f"Could not extract text from file: {file}", f'\t{e}', spaced=True)
+                msg.fail(
+                    f"Could not extract text from file: {file}", f"\t{e}", spaced=True
+                )
     return pdf_dict
 
 
