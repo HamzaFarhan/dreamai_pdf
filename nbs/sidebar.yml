@@ -1,0 +1,6 @@
+website:
+  sidebar:
+      style: floating
+      contents:
+        - section: API
+          contents: api/*
