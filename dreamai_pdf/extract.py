@@ -10,14 +10,16 @@ from .core import *
 
 # %% ../nbs/api/01_extract.ipynb 4
 def print_segments(segments: dict, limit: int = 10, width: int = 100):
-    print("-" * (width + 4))
+    msg.text("-"*(width + 4), color="red")
+    # print("-" * (width + 4))
     for k, v in segments.items():
-        print(f"{k}: {len(v)}")
+        msg.text(f"{k}: {len(v)}", color="green")
+        # print(f"{k}: {len(v)}")
         for s in v[:limit]:
             print("\t", end="")
             pprint(s, width=width)
             print()
-        print("-" * (width + 4))
+        msg.text("-"*(width + 4), color="red")
 
 
 def text_to_segments(
