@@ -1,0 +1,51 @@
+[
+  {
+    "objectID": "blog/index.html",
+    "href": "blog/index.html",
+    "title": "dreamai_pdf Blog",
+    "section": "",
+    "text": "Extract Segments from a PDF\n\n\n\n\n\nUsing dreamai_pdf to divide a PDF into ‘Work Experience’, ‘Education’, ‘Certifications’ and ‘Others’ segments.\n\n\n\n\n\n\nMay 31, 2023\n\n\nHamza Farhan\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "blog/posts/2023-05-31-EXP/index.html",
+    "href": "blog/posts/2023-05-31-EXP/index.html",
+    "title": "Extract Segments from a PDF",
+    "section": "",
+    "text": "We’ll be using a sample resume PDF.\n\n\nfrom dreamai_pdf.imports import *\nfrom dreamai_pdf.core import *\nfrom dreamai_pdf.extract import *\n\nLet’s first extract the text as a list of paragraphs.\n\nn_lines = 3 means that each paragraph will have at most 3 lines.\n\n\nfile = \"resume.pdf\"\ntext_dict = extract_text_dict(file, n_lines=3)\ntext = text_dict[file]\ntext\n\n['M A D E L E I N E G A U T H I E R D a t a E n t r y A n a l y s t Maddey@email.com (123) 456-7890 Tahoe Valley, CA',\n 'LinkedIn twitter.com W O R K E X P E R I E N C E Data Entry Operator',\n 'Heavenly Mountain Resort January 2021 - current South Lake Tahoe, CA Consolidated spreadsheets and reporting, increasing efficiency and',\n 'saving $26K in annual labor costs in 2021 Adopted computer-based reservations and payment processing structure, leading to a 74% reduction in manual work',\n 'Overhauled filing systems by upgrading to digital systems, saving 19+ monthly hours in repetitive manual input Organized data entry of 44 standard work orders, including',\n 'purchasing, shipping, and receiving Data Entry Clerk Intern Sierra-At-Tahoe Resort',\n 'May 2020 - November 2020 Twin Bridges, CA Logged data for 1,400+ yearly reservations, collecting demographic information that improved marketing performance by 13%',\n 'Consolidated paper and digital spreadsheets, ensuring systematized storage with a 51% reduction in retrieval time Utilized EntryPoint software to reduce errors by 33%, achieving',\n '99.5% accuracy Collaborated with 3 data entry team members to improve efficiency by 17% through shared systems development',\n 'P R O J E C T S Sunrise Movement Data Entry Volunteer',\n 'Standardized data entry systems for an organization of 21,000 student volunteers Streamlined merch ordering and logistical spreadsheets,',\n 'eliminating redundancies and upwards of $9K Established Zoho software adoption, improving communication between 4 data entry volunteers',\n 'Hosted 6 training events for organizing spreadsheets and data collection systems for grassroots organizationsC A R E E R O B J E C T I V E High School Senior with 2+ years of',\n 'relevant data entry experience. Seeking employment as a Data Entry Analyst with Emerald Bay Bed and Breakfast to',\n 'further develop skills in enhancing efficiency and improving customer experience.',\n 'E D U C A T I O N High school diploma South Tahoe High School',\n '2018 - current South Lake Tahoe, CA GPA: 3.6',\n 'S K I L L S Data Entry Software, including Microsoft Excel, Google Suites, Zoho,',\n 'and EntryPoint Resort Reception & Customer Service 65+ Words Per Minute Typing',\n 'Attention to Detail High Degree of Accuracy Problem Solving',\n 'C E R T I F I C A T I O N S Certified Data Entry Professional']\n\n\nNow we’ll load our model from Hugging Face and extract the segments.\n\ndevice = default_device()  # cuda if available else cpu\nmodel = load_segs_model(\"HamzaFarhan/PDFSegs\", device=device)\n\n\nsegments = text_to_segments(text, segs_model=model)[0]\nprint_segments(segments)\n\n--------------------------------------------------------------------------------------------------------\nWork Experience: 18\n    ('M A D E L E I N E G A U T H I E R D a t a E n t r y A n a l y s t Maddey@email.com (123) '\n '456-7890 Tahoe Valley, CA')\n\n    'LinkedIn twitter.com W O R K E X P E R I E N C E Data Entry Operator'\n\n    ('Heavenly Mountain Resort January 2021 - current South Lake Tahoe, CA Consolidated spreadsheets '\n 'and reporting, increasing efficiency and')\n\n    ('saving $26K in annual labor costs in 2021 Adopted computer-based reservations and payment '\n 'processing structure, leading to a 74% reduction in manual work')\n\n    ('Overhauled filing systems by upgrading to digital systems, saving 19+ monthly hours in '\n 'repetitive manual input Organized data entry of 44 standard work orders, including')\n\n    'purchasing, shipping, and receiving Data Entry Clerk Intern Sierra-At-Tahoe Resort'\n\n    ('May 2020 - November 2020 Twin Bridges, CA Logged data for 1,400+ yearly reservations, collecting '\n 'demographic information that improved marketing performance by 13%')\n\n    ('Consolidated paper and digital spreadsheets, ensuring systematized storage with a 51% reduction '\n 'in retrieval time Utilized EntryPoint software to reduce errors by 33%, achieving')\n\n    ('99.5% accuracy Collaborated with 3 data entry team members to improve efficiency by 17% through '\n 'shared systems development')\n\n    'P R O J E C T S Sunrise Movement Data Entry Volunteer'\n\n--------------------------------------------------------------------------------------------------------\nEducation: 2\n    'E D U C A T I O N High school diploma South Tahoe High School'\n\n    '2018 - current South Lake Tahoe, CA GPA: 3.6'\n\n--------------------------------------------------------------------------------------------------------\nCertifications: 1\n    'C E R T I F I C A T I O N S Certified Data Entry Professional'\n\n--------------------------------------------------------------------------------------------------------\nOther: 0\n--------------------------------------------------------------------------------------------------------"
+  },
+  {
+    "objectID": "api/core.html",
+    "href": "api/core.html",
+    "title": "Core",
+    "section": "",
+    "text": "Core functions and utilities for PDF information extraction.\n\n\nsource\n\nextract_text_dict\n\n extract_text_dict (data_path, n_lines=2)\n\n\nsource\n\n\nextract_text_list\n\n extract_text_list (data_path, n_lines=2)\n\n\nsource\n\n\nextract_text\n\n extract_text (file, n_lines=3)\n\n\nsource\n\n\nprocess_line\n\n process_line (txt, n_lines=2)\n\n\nsource\n\n\nprocess_text\n\n process_text (text:str)\n\n\nsource\n\n\ncid_to_char\n\n cid_to_char (cidx:str)"
+  },
+  {
+    "objectID": "api/extract.html",
+    "href": "api/extract.html",
+    "title": "Extract",
+    "section": "",
+    "text": "Functions for extracting text segments and embeddings from PDFs.\n\n\nsource\n\nwrite_embeddings\n\n write_embeddings (segs_model, ems_model, data_path,\n                   output_path='pdf_ems', n_lines=3)\n\nExtracts text from PDFs and writes embeddings to JSON files.\n\n\n\n\n\n\n\n\n\n\nType\nDefault\nDetails\n\n\n\n\nsegs_model\nSetFitModel\n\nSetFit model for segment classification.\n\n\nems_model\nSentenceTransformer\n\nSentenceTransformer model for embedding generation.\n\n\ndata_path\nUnion[str, Path, List[Union[str, Path]]]\n\nPath to PDFs. Can be a single file, a directory, or a list of files/directories.\n\n\noutput_path\nstr\npdf_ems\nFolder to write JSON files. Defaults to ‘pdf_ems’.\n\n\nn_lines\nint\n3\nNumber of lines to group together when extracting text from PDFs.\n\n\n\n\nsource\n\n\nwrite_segments\n\n write_segments (segs_model, data_path, output_path='pdf_segments',\n                 n_lines=2)\n\nExtracts text from PDFs and writes segments to JSON files.\n\n\n\n\n\n\n\n\n\n\nType\nDefault\nDetails\n\n\n\n\nsegs_model\nSetFitModel\n\nSetFit model for segment classification.\n\n\ndata_path\nUnion[str, Path, List[Union[str, Path]]]\n\nPath to PDFs. Can be a single file, a directory, or a list of files/directories.\n\n\noutput_path\nstr\npdf_segments\nFolder to write JSON files. Defaults to ‘pdf_segments’.\n\n\nn_lines\nint\n2\nNumber of lines to group together when extracting text from PDFs.\n\n\n\n\nsource\n\n\nload_ems_model\n\n load_ems_model (model_name:str='HamzaFarhan/PDFSegs',\n                 device:Union[str,torch.device]='cpu')\n\n\nsource\n\n\nload_segs_model\n\n load_segs_model (model_name:str='HamzaFarhan/PDFSegs',\n                  device:Union[str,torch.device]='cpu')\n\n\nsource\n\n\ntext_to_segments\n\n text_to_segments (text:Union[str,List[str]],\n                   segs_model:setfit.modeling.SetFitModel,\n                   thresh:float=0.6, classes:List=['Work Experience',\n                   'Education', 'Certifications', 'Other'])\n\n\nsource\n\n\nprint_segments\n\n print_segments (segments:dict, limit:int=10, width:int=100)"
+  },
+  {
+    "objectID": "api/index.html",
+    "href": "api/index.html",
+    "title": "dreamai_pdf",
+    "section": "",
+    "text": "pip install dreamai_pdf"
+  },
+  {
+    "objectID": "api/index.html#install",
+    "href": "api/index.html#install",
+    "title": "dreamai_pdf",
+    "section": "",
+    "text": "pip install dreamai_pdf"
+  },
+  {
+    "objectID": "api/ner.html",
+    "href": "api/ner.html",
+    "title": "NER",
+    "section": "",
+    "text": "Functions for extracting Named Entitties from PDFs.\n\n\nsource\n\nis_valid_tner\n\n is_valid_tner (ner, thresh=3)\n\n\nsource\n\n\nis_valid_jner\n\n is_valid_jner (ner, thresh=3)\n\n\nsource\n\n\nwork_ner\n\n work_ner (txt, tner, jner, ner_dict={'company': '', 'date': ''})\n\n\nsource\n\n\nedu_ner\n\n edu_ner (txt, tner, ner_dict={'institute': '', 'date': ''})\n\n\nsource\n\n\njob_ner\n\n job_ner (txt, tner, jner)\n\n\nsource\n\n\nproc_ner\n\n proc_ner (txt, ner, ner_dict={'institute': '', 'date': ''}, thresh=3)\n\n\nsource\n\n\nload_job_model\n\n load_job_model (model_name='ismail-lucifer011/autotrain-\n                 job_all-903929564', device='cpu')\n\n\nsource\n\n\nload_ner_model\n\n load_ner_model (model_name='tner/deberta-v3-large-ontonotes5',\n                 device='cpu')"
+  }
+]
